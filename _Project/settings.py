@@ -22,13 +22,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', 'default-secret-key')
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['vertical-vernice-testdeveloper-4be16622.koyeb.app/']
+ALLOWED_HOSTS = ['vertical-vernice-testdeveloper-4be16622.koyeb.app']
 
 
 # Application definition
@@ -94,6 +94,7 @@ DATABASES = {
         'USER': os.environ.get('USER'),
         'PASSWORD': os.environ.get('PASSWORD'),
         'HOST': os.environ.get('HOST'),
+        'PORT': os.environ.get('PORT'),
         'OPTIONS': {'sslmode': 'require'},
 
     }
