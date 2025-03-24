@@ -1,0 +1,111 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extract LineUp</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'assets/images/Picture21.png' %}">
+    <link rel="stylesheet" href="{% static 'css/extractData.css' %}">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="{% static 'assets/images/Inchcape-Logo-from-Wordpress.png' %}" alt="">
+        </div>
+        <div class="title">
+            <h1>ISS Shipping India - Vessel LineUp</h1>
+        </div>
+        <div class="menu">
+            <p><a href="{%url 'lineupform'%}" class="nav">LineUp Form</a></p>
+            <p><a href="{%url 'extractdata'%}" class="nav">Extract Data</a></p>
+            <p><a href="{%url 'addportberth'%}" class="nav">Add Port/Berth</a></p>
+            <p><a href="{%url 'signin'%}" class="nav">Logout</a></p>
+        </div>
+    </header>
+    <form method="post" onsubmit="return lineUpForm()">
+        {% csrf_token %}
+        <div class="maincontainer">
+            <section class="container1">
+                <div class="flex2_div">
+                    <label class="label2" for="port">Port:</label>
+                    <input list="port" id="port" class="fill" name="port"  placeholder="Port" >
+
+                    <datalist id="port">
+                        <option value="Budge Budge">
+                        <option value="Chennai">
+                        <option value="Cochin ">
+                        <option value="Dabhol">
+                        <option value="Dhamra">
+                        <option value="Gopalpur">
+                        <option value="Hazira">
+                        <option value="Kakinada">
+                        <option value="Kandla">
+                        <option value="Krishnapatnam">
+                        <option value="Mormugao">
+                        <option value="Mundra">
+                        <option value="New Mangalore">
+                        <option value="Sikka">
+                        <option value="Tuticorin">
+                        <option value="Vadinar ">
+                        <option value="Vizag">                            
+                    </datalist>
+                </div>
+                <div class="container1-2">
+                    <label class="label2" for="startDate"> Start Date:</label>
+                    <input class="Datei1" type="date" name="startDate" id="startDate" >
+                </div>
+                <div class="container1-2">
+                    <label class="label2" for="endDate"> End Date:</label>
+                    <input class="Datei1" type="date" name="endDatei" id="endDatei" >
+                </div>
+            </section>
+            <section class="container1">
+                <div class="flex2_div">
+                    <label class="label2" for="cargo">Cargo:</label>
+                    <input list="cargo" id="cargo" class="fill" name="cargo" placeholder="Cargo" >
+                </div>
+                <div class="flex2_div">
+                    <label class="label2" for="vesseltype">Vessel Type:</label>
+                    <select name="vesseltype" id="">
+                        <option value="">Select</option>
+                        <option value="bulk">Bulk</option>
+                        <option value="crudeoilcarieer">Crude Oil Carieer</option>
+                        <option value="edibleoilcarieer">Edible Oil Carieer</option>
+                        <option value="chemicalcarieer">Chemical Carieer</option>
+                        <option value="gascarieer">Gas Carieer</option>
+                        <option value="Containercarieer">Container Vessel</option>
+                    </select>
+                </div>
+                <div class="flex2_div">
+                    <label class="label2" for="operation">Operation:</label>
+                    <select name="operation" id="" >
+                        <option value="">Select</option>
+                        <option value="Load">Load</option>
+                        <option value="Discharge">Discharge</option>
+                        <option value="Load/Discharge">Load/Discharge</option>
+                    </select>
+                </div>
+            </section>
+            <section class="container1">
+                <div class="flex2_div">
+                    <label class="label2" for="loadport">Load Port:</label>
+                    <input id="port" class="fill" name="port" >
+                </div>
+                <div class="flex2_div">
+                    <label class="label2" for="dischargeport">Discharge Port:</label>
+                    <input id="dischargeport" class="fill" name="dischargeport" >
+                </div>
+                <div class="flex2_div">
+                    <label class="label2" for="agent">Agent :</label>
+                    <input id="agent" class="fill" name="agent" >
+                </div>
+            </section>
+            <section class="container1">
+                <button class="extbtn"></button>
+                <button class="extbtn"></button>
+            </section>
+        </div> 
+    </form>
+</body>
+</html>

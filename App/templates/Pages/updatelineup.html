@@ -1,0 +1,263 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="{% static 'Asset/images/inchcape_icon.jpg' %}">
+    <title>Update LineUp Form</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'assets/images/Picture21.png' %}">
+    <link rel="stylesheet" href="{% static 'css/lineupForm.css' %}">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="{% static 'assets/images/Inchcape-Logo-from-Wordpress.png' %}" alt="">
+        </div>
+        <div class="head1">
+            <div class="title">
+                <h1>ISS Shipping India - Vessel LineUp</h1>
+            </div>
+        </div>
+    </header>
+    <main>
+        {% block content %}
+        <form action="/UpdateLineup/{{ update.id }}" method="post" onsubmit="return lineUpForm()">
+            {% csrf_token %}
+            <div class="maincontainer">
+                <section class="container1">
+                    <div class="flex2_div">
+                        <label class="lable1" for="lineupdate">LineUp Date:</label>
+                        <input class="fill" type="date" name="lineupdate" id="currentDate" value="{{update.LineUp_Date}}">
+                    </div>
+                    <div class="flex2_div">
+                        <label class="lable1" for="port">Port:</label>
+                        <input id="port" class="fill" name="port" value="{{update.Port}}">
+                    </div>
+                    <div class="flex2_div">
+                        <label class="lable1" for="berth">Berth:</label>
+                        <select id="berth" class="fill" name="berth" >
+                            <option value="{{update.Berth}}">{{update.Berth}}</option>
+                        </select>
+                        <!-- <input class="fill" type="text" name="berth" id="berth"> -->
+                    </div>
+
+
+                    <div class="flex2_div">
+                        <label class="lable1" for="imono">IMO No:</label>
+                        <input class="fill" type="text" name="imono" id="imono" value="{{update.IMO_No}}">
+                    </div>
+                    <div class="flex2_div">
+                        <label class="lable1" for="vesselSlt">Slt. Name:</label>
+                        <select class="fillvst" type="text" name="vesselSlt" id="vesselSlt" value="{{update.Slt}}">
+                            <!-- <option value="">Slt.</option> -->
+                            <option value="MT">MT</option>
+                            <option value="MV">MV</option>
+                        <input class="fillV" type="text" name="vessel" id="vessel" value="{{update.Vessel}}">
+                    </div>
+                    <div class="flex2_div">
+                        <label class="lable1" for="loa">LOA:</label>
+                        <input class="fill" type="text" name="loa" id="loa" value="{{update.LOA}}">
+                    </div>
+                    <div class="flex2_div">
+                        <label class="lable1" for="beam">Beam:</label>
+                        <input class="fill" class="fill" type="text" name="beam" id="beam" value="{{update.Beam}}">
+                    </div>
+                    <div class="flex2_div">
+                        <label class="lable1" for="draft">Draft:</label>
+                        <input class="fill" type="text" name="draft" id="draft" value="{{update.Draft}}">
+                    </div>
+                    
+                </section>
+                <section class="container1">
+                    <div class="container1-2">
+                        <label class="etadatel" for="etadate"> Arrived /ETA:</label>
+                        <input class="etadatei" type="date" name="etadate" id="etadate"  value="{{data.ETA_ATA_Date}}">
+                        <label class="etatimel" for="etatime"> </label>
+                        <input class="etatimei" type="time" name="etatime" id="etatime"  value="{{data.ETA_ATA_Time}}">
+                    </div>
+                    <div class="container1-2">
+                        <label class="etbdatel" for="etbdate"> Berthed /ETB:</label>
+                        <input class="etbdatei" type="date" name="etbdate" id="etbdate"  value="{{data.ETB_ATB_Date}}">
+                        <label class="etbtimel" for="etbtime"> </label>
+                        <input class="etbtimei" type="time" name="etbtime" id="etbtime"  value="{{data.ETB_ATB_Time}}">
+                    </div>
+                    <div class="container1-2">
+                        <label class="etcdatel" for="etcdate"> Departed /ATD:</label>
+                        <input class="etcdatei" type="date" name="etcdate" id="etcdate"  value="{{data.ETD_ATD_Date}}">
+                        <label class="etctimel" for="etctime"> </label>
+                        <input class="etctimei" type="time" name="etctime" id="etctime"  value="{{data.ETD_ATD_Time}}">
+                    </div>                
+                    <div class="flex2_div">
+                        <label class="lable1" for="cargo">Cargo 1:</label>
+                        <input class="fill" type="text" name="cargo1" id="cargo1" value="{{update.Cargo1}}">
+                    </div>
+                    <div class="flex2_div">
+                        <label class="lable1" for="cargoqty">Cargo Qty 1:</label>
+                        <input class="fillqty1" type="number" name="cargoqty1" id="cargoQtyF1" value="{{update.CargoQty1}}">
+                        <select class="unitsec1" type="text" name="cargoqtyU1" id="cargoQtyU1" >
+                            <option value="{{update.CargoUnits1}}">{{update.CargoUnits1}}</option>
+                            <option value="Mts">Mts</option>
+                            <option value="Boxes">Boxes</option>
+                            <option value="Bags">Bags</option>
+                        </select>
+                    </div>
+                    <div class="flex2_div">
+                        <label class="lable1" for="cargo">Cargo 2:</label>
+                        <input class="fill" type="text" name="cargo2" id=""  value="{{update.Cargo2}}">
+                    </div>
+                    <div class="flex2_div">
+                        <label class="lable1" for="cargoqty">Cargo Quantity 2:</label>
+                        <input class="fillqty2" type="number" name="cargoqty2"  value="{{update.CargoQty2}}">
+                        <select class="unitsec2" name="cargoqtyU2" id="" >
+                            <option value="{{update.CargoUnits2}}">{{update.CargoUnits2}}</option>
+                            <option value="Mts">Mts</option>
+                            <option value="Boxes">Boxes</option>
+                            <option value="Bags">Bags</option>
+                        </select>
+                    </div>
+                    <div class="flex2_div">
+                        <label class="lable1" for="cargo">Cargo 3:</label>
+                        <input class="fill" type="text" name="cargo3" id=""  value="{{update.Cargo3}}">
+                    </div>
+                    <div class="flex2_div">
+                        <label class="lable1" for="cargoqty">Cargo Quantity 3:</label>
+                        <input class="fillqty3" type="number" name="cargoqty3" id="" value="{{update.CargoQty3}}"">
+                        <select class="unitsec3" name="cargoqtyU3" id=""  value="{{update.CargoUnits3}}">
+                            <option value="{{update.CargoUnits3}}">{{update.CargoUnits3}}</option>
+                            <option value="Mts">Mts</option>
+                            <option value="Boxes">Boxes</option>
+                            <option value="Bags">Bags</option>
+                        </select>
+                    </div>
+                    <!-- <div class="flex2_div">
+                        <label for="vesseltype">Vessel Type:</label>
+                        <select name="vesseltype" id="">
+                            <option value="">Select</option>
+                            <option value="bulk">Bulk</option>
+                            <option value="crudeoilcarieer">Crude Oil Carieer</option>
+                            <option value="edibleoilcarieer">Edible Oil Carieer</option>
+                            <option value="chemicalcarieer">Chemical Carieer</option>
+                            <option value="gascarieer">Gas Carieer</option>
+                            <option value="Containercarieer">Container Vessel</option>
+                        </select>
+                    </div> -->
+                </section>
+                <section class="container1">
+
+                    <div class="flex2_div">
+                        <label class="lable1" for="vesseltype">Vessel Type:</label>
+                        <select name="vesseltype" id="vesseltype" >
+                            <option value="{{update.VesselType}}">{{update.VesselType}}</option>
+                            <option value="Break Bulk">Break Bulk</option>
+                            <option value="Dry Bulk">Dry Bulk</option>
+                            <option value="General Bulk">General Bulk</option>
+                            <option value="Crude Oil Carieer">Crude Oil Carieer</option>
+                            <option value="Edible Oil Carieer">Edible Oil Carieer</option>
+                            <option value="Chemical Carieer">Chemical Carieer</option>
+                            <option value="Gas Carieer">Gas Carieer</option>
+                            <option value="Container Vessel">Container Vessel</option>
+                        </select>
+                    </div>
+                    <div class="flex2_div">
+                        <label class="lable1" for="operation">Operation:</label>
+                        <select name="operation" id="operation"  >
+                            <option value="{{update.Operations}}">{{update.Operations}}</option>
+                            <option value="Load">Load</option>
+                            <option value="Discharge">Discharge</option>
+                            <option value="Load/Discharge">Load/Discharge</option>
+                        </select>
+                    </div>
+                    <div class="flex2_div">
+                        <label class="lable1" for="shipper">Shipper:</label>
+                        <input class="fill" type="text" name="shipper" id="shipper" autocomplete="off" list="shipper-suggestions" value="{{update.Shipper}}">
+                        <datalist id="shipper-suggestions"></datalist>
+                    </div>
+                    <div class="flex2_div">
+                        <label class="lable1" for="receiver">Receiver:</label>
+                        <input class="fill" type="text" name="receiver" id="receiver" autocomplete="off" list="receiver-suggestions" value="{{update.Receiver}}">
+                        <datalist id="receiver-suggestions"></datalist>
+                    </div>
+                    <div class="flex2_div">
+                        <label class="lable1" for="principal">Principal:</label>
+                        <input class="fill" type="text" name="principal" id="principal" autocomplete="off" list="principal-suggestions" value="{{update.Principal}}">
+                        <datalist id="principal-suggestions"></datalist>
+                    </div>
+                    <div class="flex2_div">
+                        <label class="lable1" for="owner">Owner:</label>
+                        <input class="fill" type="text" name="owner" id="owner" autocomplete="off" list="owner-suggestions" value="{{update.Owner}}">
+                        <datalist id="owner-suggestions"></datalist>
+                    </div>
+                    <div class="flex2_div">
+                        <label class="lable1" for="cos/for">Coastal/Foreign:</label>
+                        <select name="C/F" id="cos/for" >
+                            <option value="{{update.C_F}}">{{update.C_F}}</option>
+                            <option value="Coastal">Coastal</option>
+                            <option value="Foreign">Foreign</option>
+                        </select>
+                    </div>
+                    <div class="flex2_div">
+                        <label class="lable1" for="lastport">Last Port:</label>
+                        <input class="fill" type="text" name="lastport" id="lastport" autocomplete="off" list="lastport-suggestions" value="{{update.LastPort}}">
+                        <datalist id="lastport-suggestions"></datalist>
+                    </div>
+                    <div class="flex2_div">
+                        <label class="lable1" for="nextport">Next Port:</label>
+                        <input class="fill" type="text" name="nextport" id="nextport" autocomplete="off" list="nextport-suggestions" value="{{update.NextPort}}">
+                        <datalist id="nextport-suggestions"></datalist>
+                    </div>
+                </section>
+                
+                <section class="container1">
+                    <div class="flex2_div">
+                        <label class="lable1" for="loadPort">Load Port:</label>
+                        <input class="fill" type="text" name="loadPort" id="loadPort" autocomplete="off" list="loadPort-suggestions" value="{{update.LoadPort}}">
+                        <datalist id="loadPort-suggestions"></datalist>
+                    </div>
+                    <div class="flex2_div">
+                        <label class="lable1" for="dischargePort">Discharge Port:</label>
+                        <input class="fill" type="text" name="dischargePort" id="dischargePort" autocomplete="off" list="dischargePort-suggestions" value="{{update.DischargePort}}">
+                        <datalist id="dischargePort-suggestions"></datalist>
+                    </div>
+                    <div class="flex2_div">
+                        <label class="lable1" for="cAgent">Chrts Agent:</label>
+                        <input class="fill" type="text" name="cAgent" id="cAgent" autocomplete="off" list="cAgent-suggestions" value="{{update.ChartererAgent}}">
+                        <datalist id="cAgent-suggestions"></datalist>
+                    </div>
+                    <div class="flex2_div">
+                        <label class="lable1" for="ownerAgent">Owners Agent:</label>
+                        <input class="fill" type="text" name="agent" id="agent" autocomplete="off" list="agent-suggestions" value="{{update.OwnersAgent}}">
+                        <datalist id="agent-suggestions"></datalist>
+                    </div>
+                    <div class="flex2_div">
+                        <label class="lable1" for="status">Current Status:</label>
+                        <select name="status" id="CurrStatus" >
+                            <option value="{{update.CurrentStatus}}">{{update.CurrentStatus}}</option>
+                            <option value=" At Berth">At Berth</option>
+                            <option value="Arrived">Arrived</option>
+                            <option value="Expected">Expected</option>
+                            <option value="Sailed">Sailed</option>
+                        </select>
+                    </div>
+                    <section class="inflex2">
+                        <textarea name="textarea" id=""  value="{{update.LineUp_Date}}">Remarks</textarea>            
+                    </section>
+                </section>
+                <section class="containersub">
+                    <!-- <input class="Submitbotton" type="reset" name="clearAll" value="CLEAR ALL" id="clearAll"></input> -->
+                    <!-- <input class="Submitbotton" type="submit" name="addVessel" value="ADD VESSEL" id="addVessel"></input> -->
+                    <input class="Submitbotton" type="submit" name="udateVesselDetails" value="UPDATE DETAILS" id="udateVesselDetails"></input>
+                    <!-- <input class="Submitbotton" type="submit" name="submit" value="SUBMIT LINEUP" id="submit">
+                    <input class="Submitbotton" type="submit" name="download" value="Download LINEUP" id="download"> -->
+                </section>   
+            </div>
+            <Section class="TableArea">
+                    
+            </Section> 
+        </form>
+        {% endblock %}
+    </main>
+<script src="{% static 'js/updatelineup.js' %}"></script>
+</script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NewRegistration</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'assets/images/Picture21.png' %}">
+    <link rel="stylesheet" href="{% static 'css/signup.css' %}">
+</head>
+<body>
+    {% if messages %}
+        {% for message in messages %}
+            <script>
+                alert("{{ message }}");
+            </script>
+        {% endfor %}
+    {% endif %}
+    <video class="video-background" autoplay muted loop> <source src="{% static 'assets/images/INCHCAPE_HEADER_v6.1.mp4' %}" type="video/mp4"> Your browser does not support the video tag. </video>
+    <div class="login">
+
+        <form method="post" autocomplete="off">
+            {% csrf_token %}
+            <img src="{% static 'assets/images/ISS.png' %}" alt="">
+            <h1>REGISTER</h1>
+            <div class="cred">
+                <!-- <label>First Name</label> -->
+                <input type="text" name="first_name" id="" required placeholder="Full Name">
+                <!-- <label>Last Name</label> -->
+                <input type="text" name="last_name" id="" required placeholder="Country">
+                <!-- <label>Username</label> -->
+                <input type="text" name="username" id="" required placeholder="Username">
+                <!-- <label>Email ID</label> -->
+                <input type="text" name="email" id="" required placeholder="Email ID">
+                <!-- <label>Password</label> -->
+                <input type="password" name="password" id="" required placeholder="Password">
+                
+            </div>
+            <button class="botton" type="submit">Register</button>
+            <div class="Bottom">
+                <p><a href="{%url 'signin'%}" class="add">Back</a></p>
+                <!-- <p><a href="newRegistration.html" class="add">Register</a></p>
+                <p><a href="newRegistration.html" class="add">Forgrt Password</a></p> -->
+            </div>
+        </form>
+    </div>
+</body>
+</html>

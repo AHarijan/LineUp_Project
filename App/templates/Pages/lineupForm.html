@@ -1,0 +1,379 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="icon" type="image/x-icon" href="{% static 'Asset/images/inchcape_icon.jpg' %}"> -->
+    <title>LineUp Form</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'assets/images/Picture21.png' %}">
+    <link rel="stylesheet" href="{% static 'css/lineupForm.css' %}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"></script>
+</head>
+<body>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Add event listener to the port dropdown
+            document.getElementById('port').addEventListener('change', filterTable);
+    
+            // Initial filter when the page loads (optional)
+            filterTable();
+        });
+    
+        function filterTable() {
+            const selectedPort = document.getElementById('port').value;
+            const rows = document.querySelectorAll('#myTable tbody tr');
+            rows.forEach(row => {
+                const portCell = row.querySelector('.portColumn');
+                if (selectedPort === "" || portCell.textContent === selectedPort) {
+                    row.style.display = ''; // Show the row
+                } else {
+                    row.style.display = 'none'; // Hide the row
+                }
+            });
+        }
+    </script>
+    <header>
+        <div class="logo">
+            <img src="{% static 'assets/images/Inchcape-Logo-from-Wordpress.png' %}" alt="">
+        </div>
+        <div class="head1">
+            <div class="title">
+                <h1>ISS Shipping India - Vessel LineUp</h1>
+            </div>
+            <div class="menu">
+                <p><a href="{%url 'lineupform'%}" class="nav">LineUp Form</a></p>
+                <p><a href="{%url 'extractdata'%}" class="nav">Extract Data</a></p>
+                <p><a href="{%url 'addportberth'%}" class="nav">Add Port/Berth</a></p>
+                <p><a href="{%url 'signin'%}" class="nav">Logout</a></p>
+            </div>
+        </div>
+    </header>
+    <main>
+        <section class="mainsection">
+            <form action="/LineUpForm/" method="POST" onsubmit="return lineUpForm()">
+                {% csrf_token %}
+                <div class="maincontainer">
+                    <section class="container1">
+                        <div class="flex2_div">
+                            <label class="lable1" for="lineupdate">LineUp Date:</label>
+                            <input class="fill" type="date" name="lineupdate" id="currentDate" >
+                        </div>
+                        <div class="flex2_div">
+                            <label class="lable1" for="port">Port:</label>
+                            <select id="port" name="port" required onchange="filterTable()">
+                                <option value="">Select Port</option>
+                                {% for port in ports %}
+                                    <option value="{{ port }}">{{ port }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="flex2_div">
+                            <label class="lable1" for="berth">Berth:</label>
+                            <select id="berth" class="fill" name="berth" required>
+                                <option value="">Select Berth</option>
+                                {% for berth in berths %}
+                                    <option value="{{ berth }}">{{ berth }}</option>
+                                {% endfor %}
+                            </select>
+                            <!-- <input class="fill" type="text" name="berth" id="berth"> -->
+                        </div>
+
+
+                        <script>
+                            function fetchBerths() {
+                        
+                                const selectedPort = document.getElementById('port').value;
+                        
+                                const berthDropdown = document.getElementById('berth');
+                                berthDropdown.innerHTML = '<option value="">Select Berth</option>';
+                        
+                                if (selectedPort) {
+                                    fetch(`/get-berths/?port=${selectedPort}`)
+                                        .then(response => response.json())
+                                        .then(data => {
+
+                                            const sortedBerths = data.berths.sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+                                
+                                            data.berths.forEach(berth => {
+                                                const option = document.createElement('option');
+                                                option.value = berth;
+                                                option.textContent = berth;
+                                                berthDropdown.appendChild(option);
+                                            });
+                                        })
+                                        .catch(error => console.error('Error fetching berths:', error));
+                                }
+                            }
+                        
+
+                            document.getElementById('port').addEventListener('change', fetchBerths);
+                        </script>
+
+
+
+                        <div class="flex2_div">
+                            <label class="lable1" for="imono">IMO No:</label>
+                            <input class="fill" type="text" name="imono" id="imono">
+                        </div>
+                        <div class="flex2_div">
+                            <label class="lable1" for="vesselSlt">Slt. Name:</label>
+                            <select class="fillvst" type="text" name="vesselSlt" id="vesselSlt">
+                                <option value="">Slt.</option>
+                                <option value="MT">MT</option>
+                                <option value="MV">MV</option>
+                            </select>
+                            <input class="fillV" type="text" name="vessel" id="vessel">
+                        </div>
+                        <div class="flex2_div">
+                            <label class="lable1" for="loa">LOA:</label>
+                            <input class="fill" type="text" name="loa" id="loa">
+                        </div>
+                        <div class="flex2_div">
+                            <label class="lable1" for="beam">Beam:</label>
+                            <input class="fill" class="fill" type="text" name="beam" id="beam">
+                        </div>
+                        <div class="flex2_div">
+                            <label class="lable1" for="draft">Draft:</label>
+                            <input class="fill" type="text" name="draft" id="draft">
+                        </div>
+                        
+                    </section>
+                    <section class="container1">
+                        <div class="container1-2">
+                            <label class="etadatel" for="etadate"> Arrived /ETA:</label>
+                            <input class="etadatei" type="date" name="etadate" id="etadate"  >
+                            <label class="etatimel" for="etatime"> </label>
+                            <input class="etatimei" type="time" name="etatime" id="etatime" >
+                        </div>
+                        <div class="container1-2">
+                            <label class="etbdatel" for="etbdate"> Berthed /ETB:</label>
+                            <input class="etbdatei" type="date" name="etbdate" id="etbdate" >
+                            <label class="etbtimel" for="etbtime"> </label>
+                            <input class="etbtimei" type="time" name="etbtime" id="etbtime" >
+                        </div>
+                        <div class="container1-2">
+                            <label class="etcdatel" for="etcdate"> Departed /ATD:</label>
+                            <input class="etcdatei" type="date" name="etcdate" id="etcdate" >
+                            <label class="etctimel" for="etctime"> </label>
+                            <input class="etctimei" type="time" name="etctime" id="etctime" >
+                        </div>                
+                        <div class="flex2_div">
+                            <label class="lable1" for="cargo">Cargo 1:</label>
+                            <input class="fill" type="text" name="cargo1" id="cargo1">
+                        </div>
+                        <div class="flex2_div">
+                            <label class="lable1" for="cargoqty">Cargo Qty 1:</label>
+                            <input class="fillqty1" type="number" name="cargoqty1" id="cargoQtyF1">
+                            <select class="unitsec1" name="cargoqtyU1" id="cargoQtyU1">
+                                <option value="">Units</option>
+                                <option value="Mts">Mts</option>
+                                <option value="Boxes">Boxes</option>
+                                <option value="Bags">Bags</option>
+                            </select>
+                        </div>
+                        <div class="flex2_div">
+                            <label class="lable1" for="cargo">Cargo 2:</label>
+                            <input class="fill" type="text" name="cargo2" id="" placeholder="Optional">
+                        </div>
+                        <div class="flex2_div">
+                            <label class="lable1" for="cargoqty">Cargo Quantity 2:</label>
+                            <input class="fillqty2" type="number" name="cargoqty2" id="" value=0>
+                            <select class="unitsec2" name="cargoqtyU2" id="" >
+                                <option value="">Units</option>
+                                <option value="Mts">Mts</option>
+                                <option value="Boxes">Boxes</option>
+                                <option value="Bags">Bags</option>
+                            </select>
+                        </div>
+                        <div class="flex2_div">
+                            <label class="lable1" for="cargo">Cargo 3:</label>
+                            <input class="fill" type="text" name="cargo3" id="" placeholder="Optional">
+                        </div>
+                        <div class="flex2_div">
+                            <label class="lable1" for="cargoqty">Cargo Quantity 3:</label>
+                            <input class="fillqty3" type="number" name="cargoqty3" id="" value=0 >
+                            <select class="unitsec3" name="cargoqtyU3" id="" >
+                                <option value="">Units</option>
+                                <option value="Mts">Mts</option>
+                                <option value="Boxes">Boxes</option>
+                                <option value="Bags">Bags</option>
+                            </select>
+                        </div>
+                    </section>
+                    <section class="container1">
+    
+                        <div class="flex2_div">
+                            <label class="lable1" for="vesseltype">Vessel Type:</label>
+                            <select name="vesseltype" id="vesseltype">
+                                <option value="">Select</option>
+                                <option value="Break Bulk">Break Bulk</option>
+                                <option value="Dry Bulk">Dry Bulk</option>
+                                <option value="General Bulk">General Bulk</option>
+                                <option value="Crude Oil Carieer">Crude Oil Carieer</option>
+                                <option value="Edible Oil Carieer">Edible Oil Carieer</option>
+                                <option value="Chemical Carieer">Chemical Carieer</option>
+                                <option value="Gas Carieer">Gas Carieer</option>
+                                <option value="Container Vessel">Container Vessel</option>
+                            </select>
+                        </div>
+                        <div class="flex2_div">
+                            <label class="lable1" for="operation">Operation:</label>
+                            <select name="operation" id="operation" >
+                                <option value="">Select</option>
+                                <option value="Load">Load</option>
+                                <option value="Discharge">Discharge</option>
+                                <option value="Load/Discharge">Load/Discharge</option>
+                            </select>
+                        </div>
+                        <div class="flex2_div">
+                            <label class="lable1" for="shipper">Shipper:</label>
+                            <input class="fill" type="text" name="shipper" id="shipper" placeholder="Optional" autocomplete="off" list="shipper-suggestions">
+                            <datalist id="shipper-suggestions"></datalist>
+                        </div>
+                        <div class="flex2_div">
+                            <label class="lable1" for="receiver">Receiver:</label>
+                            <input class="fill" type="text" name="receiver" id="receiver" placeholder="Optional" autocomplete="off" list="receiver-suggestions">
+                            <datalist id="receiver-suggestions"></datalist>
+                        </div>
+                        <div class="flex2_div">
+                            <label class="lable1" for="principal">Charterer:</label>
+                            <input class="fill" type="text" name="principal" id="principal" placeholder="Optional" autocomplete="off" list="principal-suggestions">
+                            <datalist id="principal-suggestions"></datalist>
+                        </div>
+                        <div class="flex2_div">
+                            <label class="lable1" for="owner">Owner:</label>
+                            <input class="fill" type="text" name="owner" id="owner" placeholder="Optional" autocomplete="off" list="owner-suggestions">
+                            <datalist id="owner-suggestions"></datalist>
+                        </div>
+                        <div class="flex2_div">
+                            <label class="lable1" for="cos/for">Coastal/Foreign:</label>
+                            <select name="C/F" id="cos/for" >
+                                <option value="">Select</option>
+                                <option value="Coastal">Coastal</option>
+                                <option value="Foreign">Foreign</option>
+                            </select>
+                        </div>
+                        <div class="flex2_div">
+                            <label class="lable1" for="lastport">Last Port:</label>
+                            <input class="fill" type="text" name="lastport" id="lastport" autocomplete="off" list="lastport-suggestions">
+                            <datalist id="lastport-suggestions"></datalist>
+                        </div>
+                        <div class="flex2_div">
+                            <label class="lable1" for="nextport">Next Port:</label>
+                            <input class="fill" type="text" name="nextport" id="nextport" autocomplete="off" list="nextport-suggestions">
+                            <datalist id="nextport-suggestions"></datalist>
+                        </div>
+                    </section>
+                    
+                    <section class="container1">
+                        <div class="flex2_div">
+                            <label class="lable1" for="loadPort">Load Port:</label>
+                            <input class="fill" type="text" name="loadPort" id="loadPort" placeholder="Optional" autocomplete="off" list="loadPort-suggestions">
+                            <datalist id="loadPort-suggestions"></datalist>
+                        </div>
+                        <div class="flex2_div">
+                            <label class="lable1" for="dischargePort">Discharge Port:</label>
+                            <input class="fill" type="text" name="dischargePort" id="dischargePort" placeholder="Optional" autocomplete="off" list="dischargePort-suggestions">
+                            <datalist id="dischargePort-suggestions"></datalist>
+                        </div>
+                        <div class="flex2_div">
+                            <label class="lable1" for="cAgent">Chrts Agent:</label>
+                            <input class="fill" type="text" name="cAgent" id="cAgent" placeholder="Optional" autocomplete="off" list="cAgent-suggestions">
+                            <datalist id="cAgent-suggestions"></datalist>
+                        </div>
+                        <div class="flex2_div">
+                            <label class="lable1" for="ownerAgent">Owners Agent:</label>
+                            <input class="fill" type="text" name="agent" id="agent" placeholder="Optional" autocomplete="off" list="agent-suggestions">
+                            <datalist id="agent-suggestions"></datalist>
+                        </div>
+                        <div class="flex2_div">
+                            <label class="lable1" for="status">Current Status:</label>
+                            <select name="status" id="CurrStatus" >
+                                <option value="">Select</option>
+                                <option value=" At Berth">At Berth</option>
+                                <option value="Arrived">Arrived</option>
+                                <option value="Expected">Expected</option>
+                                <option value="Sailed">Sailed</option>
+                            </select>
+                        </div>
+                        <section class="inflex2">
+                            <textarea name="textarea" id="textarea" >Remarks</textarea>            
+                        </section>
+                    </section>
+                    <section class="containersub">
+                        <input class="Submitbotton" type="reset" name="clearAll" value="CLEAR ALL" id="clearAll"></input>
+                        <input class="Submitbotton" type="submit" name="submit" value="SUBMIT LINEUP" id="submit">
+                        <button id="exportBtn" type="button" class="Submitbotton">Export to Excel</button>
+                        <!-- <input class="Submitbotton" type="submit"  value="Export to Excel" id="exportBtn"> -->
+                    </section>   
+                </div>
+            </form>
+            <Section class="TableArea">
+                <table id="myTable" class="TVP">
+                    <thead class="tableheader">
+                        <tr>
+                            <th class="Thead">Berth</th>
+                            <th class="Thead">Vessel Name</th>
+                            <th class="Thead">Estimated/Actual Time of Arrival</th>
+                            <th class="Thead">Estimated/Actual Time of Berth</th>
+                            <th class="Thead">Estimated/Actual Time of Departure</th>
+                            <th class="Thead">Cargo</th>
+                            <th class="Thead">Cargo Quantity</th>
+                            <th class="Thead">Units</th>
+                            <th class="Thead">Vessel Type</th>
+                            <th class="Thead">Operations</th>
+                            <th class="Thead">Shipper/Receiver</th>
+                            <th class="Thead">Charterer Agent</th>
+                            <th class="Thead">Current Status</th>
+                            <th class="Ticon">Edit</th> 
+                            <th class="Ticon">Delete</th>                                                      
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for data in datas %} 
+                            <tr>
+                                <td class="portColumn" style="display: none;">{{ data.Port }}</td>
+                                <td>{{data.Berth}}</td>
+                                <td>{{data.Vessel}}</td>
+                                <td>{{data.ETA_ATA_Date|date:"d/m/y" }} {{ data.ETA_ATA_Time|time:"H:i" }}</td>
+                                <td>{{data.ETB_ATB_Date|date:"d/m/y" }} {{ data.ETB_ATB_Time|time:"H:i" }}</td>
+                                <td>{{data.ETD_ATD_Date|date:"d/m/y" }} {{ data.ETD_ATD_Time|time:"H:i" }}</td>
+
+                                <!-- <td>{{data.ETA_ATA_Date}} {{ data.ETA_ATA_Time}}</td>
+                                <td>{{data.ETB_ATB_Date}} {{ data.ETB_ATB_Time}}</td>
+                                <td>{{data.ETD_ATD_Date}} {{ data.ETD_ATD_Time}}</td> -->
+
+                                <td>{{data.Cargo1}}</td>
+                                <td>{{data.CargoQty1}}</td>
+                                <td>{{data.CargoUnits1}}</td>
+                                <td class="vesselTypeColumn" >{{data.VesselType}}</td>
+                                <td>{{data.Operations}}</td>
+                                <!-- <td>{{data.Shipper}} / {{data.Receiver}}</td> -->
+                                <td>
+                                    {% if data.Shipper and data.Receiver %}
+                                        {{ data.Shipper }} / {{ data.Receiver }}
+                                    {% elif data.Shipper %}
+                                        {{ data.Shipper }}
+                                    {% elif data.Receiver %}
+                                        {{ data.Receiver }}
+                                    {% else %}
+                                        <!-- Display nothing if both are empty -->
+                                    {% endif %}
+                                </td>
+                                <td class="chartererAgentColumn" >{{data.ChartererAgent}}</td>
+                                <td>{{data.CurrentStatus}}</td>
+                                <td><a href="/UpdateLineup/{{data.id}}"><img class="edt" src="{% static 'assets/images/pencil-solid.png' %}" alt=""></a></td>
+                                <td><a href="/DeleteLineup/{{data.id}}"><img class="edt" src="{% static 'assets/images/trash-solid.png' %}" alt=""></a></td>                             
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                    
+            </Section> 
+        </section>
+    </main>
+<script src="{% static 'js/lineupForm.js' %}"></script>
+</script>
+</body>
+</html>

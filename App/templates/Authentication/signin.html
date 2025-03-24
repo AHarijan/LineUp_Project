@@ -1,0 +1,42 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    
+    <link rel="icon" type="image/x-icon" href="{% static 'assets/images/Picture21.png' %}">
+    <link rel="stylesheet" href="{% static 'css/signin.css' %}">
+</head>
+<body>
+    
+    <video class="video-background" autoplay muted loop> <source src="{% static 'assets/images/INCHCAPE_HEADER_v6.1.mp4' %}" type="video/mp4"> Your browser does not support the video tag. </video>
+    <div class="login">
+
+        <form method="post" autocomplete="off" action="{% url 'signin' %}">
+            {% csrf_token %}
+            <img src="{% static 'assets/images/ISS.png' %}" alt="">
+            <h1>LOG IN</h1>
+            <div class="cred">
+                <!-- <label>Email Id</label> -->
+                <input type="text" name="username" id="" required placeholder="Username">
+                <!-- <label>Password</label> -->
+                <input type="password" name="password" id="" required placeholder="Password">
+            </div>
+            <button class="botton">LogIn</button>
+            <div class="Bottom">
+                <p><a href="{%url 'signup'%}" class="add">Register</a></p>
+                <p><a href="{%url 'forgotpass'%}" class="add">Forgot Password</a></p>
+            </div>
+        </form>
+    </div>
+    {% if messages %}
+        <script>
+            {% for message in messages %}
+                alert('{{ message }}');
+            {% endfor %}
+        </script>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Anton+SC&family=Audiowide&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <title>ISS LineupForm</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'assets/images/Picture21.png' %}">
+    <link rel="stylesheet" href="{% static 'css/addPortBerth.css' %}">
+</head>
+<body>
+    <a href="{%url 'lineupform'%}" class="back">Back</a>
+    <section class="Container">
+        <header>
+            <div class="logo">
+                <img src="{% static 'assets/images/Inchcape-Logo-from-Wordpress.png' %}" alt="">
+            </div>
+            <div class="title">
+                <h1>ISS Port Information Form</h1>
+            </div>
+
+        </header>    
+        <form method="post" onsubmit="return addPortBerth()">
+            {% csrf_token %}
+            <section class="form1">
+                <h1 class="h1T">Berth Information</h1>
+                <div class="item">
+                    <label for="country">Country:</label>
+                    <input list="country" id="country" class="fill" name="country" required>
+                </div>
+                <div class="item">
+                    <label for="port">Port:</label>
+                    <input list="port" id="port" class="fill" name="port" required>
+                </div>    
+            </section>
+            <section class="button">
+                <p class="Submitbotton" id="addPort">Add Another Berth</p>
+                <input class="Submitbotton" type="reset" name="clearAll" id="clearAll"></input>
+                <input class="Submitbotton" type="submit" name="submit" id="submit"></input>
+            </section>
+            <section id="portAdd" class="form2">
+                <div class="item">
+                    <label for="berth">Berth:</label>
+                    <input list="berth" id="berth" class="fill" name="berth" required>
+                </div>
+                <div class="item">
+                    <label for="berthType">Berth Type:</label>
+                    <select id="berthType" class="fill" name="berthType" required>
+                        <option value="">Select</option>
+                        <option value="Bulk">BULK</option>
+                        <option value="Chemical Tanker">CHEMICAL TANKER</option>
+                        <option value="Container Vessel">CONTAINER</option>
+                        <option value="Crude Oil Tanker">CRUDE OIL TANKER</option>
+                        <option value="Dry Dock">DRY DOCK</option>
+                        <option value="Edible Oil Tanker">EDIBLE OIL TANKER</option>
+                        <option value="Gas Tanker">GAS TANKER</option>
+                        <option value="General Cargo">GENERAL CARGO</option>
+                        <option value="LNG Tanker">LNG TANKER</option>
+                        <option value="Passenger Vessel">PASSENGER VESSEL</option>
+                        <option value="Project Cargo">PROJECT CARGO</option>
+                        <option value="Vehical Carrier">VEHICAL CARRIER</option>
+                        <option value="Vessel Repair Work">VESSEL REPAIR WORK</option>
+                    </select>
+                </div>
+                <div class="item">
+                    <label for="cargoType">Cargos Handled on Berth:</label>
+                    <input name="cargoType" id="cargoType" class="fill1" name="cargoType" placeholder="Write all the cargo handled at berth followed by '/'" required>
+                </div>
+                <div class="item">
+                    <label for="terminal">Terminal:</label>
+                    <input list="terminal" id="terminal" class="fill" name="terminal">
+                </div>
+            </section>
+            <!-- <section class="button">
+                <p class="Submitbotton" id="addPort">Add Another Berth</p>
+                <input class="Submitbotton" type="reset" name="clearAll" id="clearAll"></input>
+                <input class="Submitbotton" type="submit" name="submit" id="submit"></input>
+            </section> -->
+            <footer>
+                
+            </footer>
+        </form>
+    </section>
+    
+<script src="{% static 'js/addPortBerth.js' %}">
+    
+    
+</script>    
+</body>
+</html>
