@@ -162,3 +162,5 @@ EMAIL_PORT=465
 EMAIL_USE_SSL=True
 EMAIL_HOST_USER="alakar.harijan2000@gmail.com"
 EMAIL_HOST_PASSWORD="vmzv ndwr goky laor"
+
+PORT = int(os.environ.get('PORT', 8000))
