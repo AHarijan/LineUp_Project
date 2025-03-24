@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-9(8!j5s$3!sq6(n8(*s4d=y=k_x+d=wu)ce7dzbv@fnu-o!5^g
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['https://vertical-vernice-testdeveloper-4be16622.koyeb.app/']
 
 
 # Application definition
