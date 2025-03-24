@@ -92,6 +92,7 @@ DATABASES = {
         'USER': os.environ.get('USER'),
         'PASSWORD': os.environ.get('PASSWORD'),
         'HOST': os.environ.get('HOST'),
+        'PORT': os.environ.get('PORT', '5432'),
         'OPTIONS': {'sslmode': 'require'},
     }
 }
@@ -136,6 +137,7 @@ STATIC_URL = 'static/'
 STATICFILES_DIR = [BASE_DIR / 'static']
 STATIC_DIR = [os.path.join(BASE_DIR,'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 
 STORAGES = {
     "staticfiles": {
