@@ -18,7 +18,8 @@ urlpatterns = [
     path('DeleteLineup/<int:id>',views.DeleteLineup_pg,name='DeleteLineup'),
     path('AddPortBerth/',views.AddPortBerth_pg,name='addportberth'),
     path('GetCookies/',views.set_cookies,name='getcookies'),
-    path('get-berths/', get_berths, name='get_berths'),
+    path('get-berths/', views.get_berths, name='get_berths'),
+    path('get-updated-berths/', views.get_updated_berths, name='get_updated_berths'),
     path('get-autocomplete-suggestions/', get_autocomplete_suggestions, name='get_autocomplete_suggestions'),
 
 ]

@@ -24,6 +24,7 @@ def index_pg(request):
         username=request.POST.get('username')
         password=request.POST.get('password')
 
+        password=request.POST.get('password')
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
@@ -372,6 +373,15 @@ def get_berths(request):
         return JsonResponse({'berths': berths_list})
     return JsonResponse({'berths': []})
 
+
+def get_updated_berths(request):
+    port = request.GET.get('port', None)
+    if port:
+        # Get unique berths for the selected port
+        Uberths = Port_Berth_Form.objects.filter(Port=port).values_list('Berth', flat=True).distinct()
+        Uberths_list = list(Uberths)  # Convert QuerySet to a list
+        return JsonResponse({'Uberths': Uberths_list})
+    return JsonResponse({'Uberths': []})
 
 
 def get_autocomplete_suggestions(request):
