@@ -220,7 +220,20 @@ def LineupForm_pg(request):
 
 @login_required 
 def ExtractData_pg(request):
-    return render(request, 'Pages/extractData.html')
+
+    ports = Port_Berth_Form.objects.values_list('Port', flat=True).distinct().order_by('Port')
+    cargos = SailedData.objects.values_list('Cargo1', flat=True).distinct().order_by('Cargo1')
+    sailed_vessel = SailedData.objects.all().order_by('Port', '-ETD_ATD_Date')
+    
+    context = {
+        'ports': ports,
+        'cargos':cargos,
+        'sailed_Vessel': sailed_vessel,
+        'title':'Archived Sailed Vessels'
+    }
+
+    return render(request, 'Pages/extractData.html', context)
+
 
 @login_required 
 def UpdateLineup_pg(request,id):
@@ -388,9 +401,130 @@ def get_autocomplete_suggestions(request):
     query = request.GET.get('query', '')  # Get the search term from the URL
     field = request.GET.get('field', '')  # Get the field name from the URL (e.g., 'Shipper', 'Receiver')
     
-    if field and hasattr(LineUpForm, field):  # Check if the field exists in the model
-        suggestions = LineUpForm.objects.filter(**{f"{field}__icontains": query}).values_list(field, flat=True).distinct()
+    if field and hasattr(SailedData, field):  # Check if the field exists in the model
+        suggestions = SailedData.objects.filter(**{f"{field}__icontains": query}).values_list(field, flat=True).distinct()
         return JsonResponse(list(suggestions), safe=False)
     else:
         return JsonResponse([], safe=False)
     
+
+
+# def ExtractData_pg(request):
+#     sailed_Vessel = SailedData.objects.all().order_by('Port', '-ETD_ATD_Date') #change LineUpForm to SailedData
+#     context = {
+#         'sailed_Vessel':sailed_Vessel,
+#         'title':'Archived Sailed Vessels'
+#     }
+#     return render(request, 'Pages/extractData.html', context)
+
+
+
+def move_sailed_data():
+
+    sailed_record = LineUpForm.objects.filter(CurrentStatus="SAILED")
+
+    for record in sailed_record:
+        SailedData.objects.create(
+            LineUp_Date=record.LineUp_Date,
+            Port=record.Port,
+            Berth=record.Berth,
+            IMO_No=record.IMO_No,
+            Slt=record.Slt,
+            Vessel=record.Vessel,
+            LOA=record.LOA,
+            Beam=record.Beam,
+            Draft=record.Draft,
+            ETA_ATA_Date=record.ETA_ATA_Date,
+            ETA_ATA_Time=record.ETA_ATA_Time,
+            ETB_ATB_Date=record.ETB_ATB_Date,
+            ETB_ATB_Time=record.ETB_ATB_Time,
+            ETD_ATD_Date=record.ETD_ATD_Date,
+            ETD_ATD_Time=record.ETD_ATD_Time,
+            Cargo1=record.Cargo1,
+            CargoQty1=record.CargoQty1,
+            CargoUnits1=record.CargoUnits1,
+            Cargo2=record.Cargo2,
+            CargoQty2=record.CargoQty2,
+            CargoUnits2=record.CargoUnits2,
+            Cargo3=record.Cargo3,
+            CargoQty3=record.CargoQty3,
+            CargoUnits3=record.CargoUnits3,
+            VesselType=record.VesselType,
+            Operations=record.Operations,
+            Shipper=record.Shipper,
+            Receiver=record.Receiver,
+            Principal=record.Principal,
+            Owner=record.Owner,
+            C_F=record.C_F,
+            LastPort=record.LastPort,
+            NextPort=record.NextPort,
+            LoadPort=record.LoadPort,
+            DischargePort=record.DischargePort,
+            ChartererAgent=record.ChartererAgent,
+            OwnersAgent=record.OwnersAgent,
+            CurrentStatus=record.CurrentStatus,
+            Remarks=record.Remarks,
+        )
+    sailed_record.delete()
+
+def filter_sailed_data(request):
+    # Start with all objects
+    queryset = SailedData.objects.all()
+    
+    if request.method == 'POST':
+        # Get form data
+        port = request.POST.get('port')
+        start_date = request.POST.get('startDate')
+        end_date = request.POST.get('endDatei')
+        cargo = request.POST.get('cargo')
+        vessel_type = request.POST.get('vesseltype')
+        operation = request.POST.get('operation')
+        load_port = request.POST.get('loadport')
+        discharge_port = request.POST.get('dischargeport')
+        agent = request.POST.get('agent')
+        
+        # Apply filters based on form inputs
+        if port:
+            queryset = queryset.filter(Port=port)
+            
+        if start_date and end_date:
+            # Convert string dates to date objects
+            start_date = datetime.strptime(start_date, '%Y-%m-%d').date()
+            end_date = datetime.strptime(end_date, '%Y-%m-%d').date()
+            queryset = queryset.filter(
+                Q(ETA_ATA_Date__range=[start_date, end_date]) |
+                Q(ETB_ATB_Date__range=[start_date, end_date]) |
+                Q(ETD_ATD_Date__range=[start_date, end_date])
+            )
+            
+        if cargo:
+            queryset = queryset.filter(
+                Q(Cargo1__icontains=cargo) |
+                Q(Cargo2__icontains=cargo) |
+                Q(Cargo3__icontains=cargo)
+            )
+            
+        if vessel_type:
+            queryset = queryset.filter(VesselType__icontains=vessel_type)
+            
+        if operation:
+            queryset = queryset.filter(Operations__icontains=operation)
+            
+        if load_port:
+            queryset = queryset.filter(LoadPort__icontains=load_port)
+            
+        if discharge_port:
+            queryset = queryset.filter(DischargePort__icontains=discharge_port)
+            
+        if agent:
+            queryset = queryset.filter(
+                Q(ChartererAgent__icontains=agent) |
+                Q(OwnersAgent__icontains=agent)
+            )
+    
+    context = {
+        'sailed_data': queryset,
+        'ports': ['Port1', 'Port2', 'Port3']  # Replace with your actual ports
+    }
+
+    return render(request, 'Pages/extractData.html', context)

@@ -21,14 +21,6 @@ class LineUpForm(models.Model):
     LOA=models.IntegerField(max_length=20,default="")
     Beam=models.IntegerField(max_length=20,default="")
     Draft=models.IntegerField(max_length=20,default="")
-    
-    # ETA_ATA_Date=models.CharField(max_length=20,null=True, blank=True)
-    # ETA_ATA_Time=models.CharField(max_length=20,null=True, blank=True)
-    # ETB_ATB_Date=models.CharField(max_length=20,null=True, blank=True)
-    # ETB_ATB_Time=models.CharField(max_length=20,null=True, blank=True)
-    # ETD_ATD_Date=models.CharField(max_length=20,null=True, blank=True)
-    # ETD_ATD_Time=models.CharField(max_length=20,null=True, blank=True)
-
     ETA_ATA_Date=models.DateField(null=True, blank=True)
     ETA_ATA_Time=models.TimeField(null=True, blank=True)
     ETB_ATB_Date=models.DateField(null=True, blank=True)
@@ -80,14 +72,6 @@ class SailedData(models.Model):
     LOA=models.IntegerField(max_length=20,default="")
     Beam=models.IntegerField(max_length=20,default="")
     Draft=models.IntegerField(max_length=20,default="")
-    
-    # ETA_ATA_Date=models.CharField(max_length=20,null=True, blank=True)
-    # ETA_ATA_Time=models.CharField(max_length=20,null=True, blank=True)
-    # ETB_ATB_Date=models.CharField(max_length=20,null=True, blank=True)
-    # ETB_ATB_Time=models.CharField(max_length=20,null=True, blank=True)
-    # ETD_ATD_Date=models.CharField(max_length=20,null=True, blank=True)
-    # ETD_ATD_Time=models.CharField(max_length=20,null=True, blank=True)
-
     ETA_ATA_Date=models.DateField(null=True, blank=True)
     ETA_ATA_Time=models.TimeField(null=True, blank=True)
     ETB_ATB_Date=models.DateField(null=True, blank=True)

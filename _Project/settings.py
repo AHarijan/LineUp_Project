@@ -21,12 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-9(8!j5s$3!sq6(n8(*s4d=y=k_x+d=wu)ce7dzbv@fnu-o!5^g'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -119,6 +119,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_DIR = [os.path.join(BASE_DIR,'static')]
 
 # Default primary key field type
@@ -134,3 +135,14 @@ EMAIL_USE_SSL=True
 EMAIL_HOST_USER="alakar.harijan2000@gmail.com"
 EMAIL_HOST_PASSWORD="vmzv ndwr goky laor"
 
+
+
+
+from celery.schedules import crontab 
+
+CELERY_BEAT_SCHEDULE = {
+    'transfer_sailed_vessels_daily': {
+        'task': 'App.tasks.transfer_sailed_vessels_task',
+        'schedule': crontab(hour=0, minute=0),  # Midnight
+    },
+}
