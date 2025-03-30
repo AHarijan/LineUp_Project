@@ -216,3 +216,6 @@ select[multiple] option:checked {
     position: relative;
     display: flex;
 }
+.info{
+    height: 20px;
+}
