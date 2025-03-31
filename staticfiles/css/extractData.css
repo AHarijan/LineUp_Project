@@ -1,0 +1,221 @@
+body{
+    margin: 0px;
+    padding: 0px;
+    background: rgb(235, 235, 235);
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+.logo img{
+    height: 80px;
+    align-items: start;
+}
+header{
+    display: flex;
+    background-color: #001325;
+    height: 80px;
+    width: 100%;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 5px;
+    position: fixed;
+}
+.title{
+    width: 60%;
+}
+.title h1{
+    display: flex;
+    margin-top: 20px;
+}
+.title p{
+    display: flex;
+
+}
+.menu{
+    display: flex;
+    justify-content: right ;
+    width: 50%;
+    margin-top: 20px;
+    gap: 20px;
+    margin-right: 38px;
+}
+.nav{
+    position: relative;
+    overflow: hidden;
+    padding: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: white;
+    font-size: 15px;
+}
+.nav{
+    position: relative;
+    overflow: hidden;
+    padding: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: white;
+    font-size: 15px;
+}
+.nav::after{
+    content: "";
+    display: block;
+    height: 2px;
+    width: 100%;
+    border-radius: 50%;
+    background-color: white;
+    transform: scale(0);
+    transition: tranform 0.5s ease;
+    transform-origin: left;
+}
+.nav:hover:after{
+    transform: scale(1);
+}
+form{
+    margin-top: 80px;
+}
+.maincontainer{
+    display: flex;
+    flex-wrap: wrap;
+    /* justify-content: space-between; */
+    height: 140px;
+    width: 100%;
+    background: #296c85;
+}    
+
+.container1{
+    flex-wrap: wrap;
+    margin: 4px;
+    margin-left: 40px;
+    margin-right: 40px;
+    /* padding: 10px; */
+    height: 100px;
+    width: 300px;
+    color: white;
+    font-size: 12px;
+    font-family: "Poppins", sans-serif;
+    font-size: 13px;
+    border-radius: 5px;
+    /* border: 1px solid white; */
+}
+.flex2_div{
+    display: flex;
+    width: 100%;
+    margin-bottom: 10px;
+}
+label{
+    width: 140px;
+    border-radius: 5px;
+    margin: 3px;
+}
+.label1{
+    width: 40px;
+    border-radius: 5px;
+    margin: 3px;
+    text-align: center;
+}
+.fill{
+    width: 190px;
+    height: 20px;
+    border-radius: 5px;
+    padding-left: 5px;
+    margin: 3px;
+    font-family: monospace;
+    font-size: 13px;
+}
+.container1-2{
+    display: flex;
+    margin-bottom: 10px;
+}
+.Datei1{
+    margin-left: 0px;
+    border-radius: 5px;
+    width: 190px;
+    height: 20px;
+}
+select{
+    border-radius: 5px;
+    width: 190px;
+    padding-left: 5px;
+    margin: 3px;
+    height: 22px;
+    font-family: monospace;
+    font-size: 13px;
+}
+.select{
+    border-radius: 5px;
+    width: 190px;
+    padding-left: 5px;
+    margin: 3px;
+    height: 22px;
+    font-family: monospace;
+    font-size: 13px;
+}
+.extbtn{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    width: 200px;
+    margin-left: 40px;
+    margin: 10px;
+}
+
+.TableArea{
+    /* border: 1px solid black; */
+    height: 75vh;
+    width: 100%;
+    margin-top: 15px;
+    /* margin: 5px; */
+    border-radius: 5px;
+    overflow-x: auto;
+    overflow-y: auto;
+}
+.TVP{
+    background-color: #e9f7fc;
+    overflow-x: auto;
+}
+.TVP th{
+    background-color: #296c85;
+    text-align: center; 
+    padding: 8px;
+}
+.TVP th, .TVP td {
+    text-align: center; 
+    padding: 8px;
+    font-family: monospace;
+    font-size: 14px;
+}
+.Thead{
+    width: 8vw;
+    font-size: 14px;
+    color: white;
+    /* position: fixed; */
+}
+table.TVP thead {
+    position: sticky;
+    top: 0; 
+    background-color: #f1f1f1; 
+    z-index: 1; 
+}
+/* Multiple select styling */
+select[multiple] {
+    height: 110px;
+    min-height: 38px;
+    padding: 5px 0;
+}
+select[multiple] option {
+    padding: 5px 10px;
+}
+select[multiple] option:checked {
+    background-color: #0070C0;
+    color: white;
+}
+.multiselect-container {
+    position: relative;
+    display: flex;
+}
+.info{
+    height: 20px;
+}
