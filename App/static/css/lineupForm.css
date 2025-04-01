@@ -85,7 +85,7 @@ form{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    height: 42vh;
+    min-height: 44vh;
     width: 100%;
     background: #296c85;
 }    
