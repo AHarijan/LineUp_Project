@@ -306,10 +306,37 @@ table.TVP thead {
         margin-top: 20px;
         font-size: 25px;
     }
+    .maincontainer{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content:center;
+        
+    }
+    .container1{
+        align-items: center;
+        margin-bottom: 2vh;
+        margin-Top: 2vh;
+        /* width: 60vw; */
+        /* height: 32vh; */
+    }
     .containersub{
-        margin-left: 10px;
-        width: 38vh;
+        justify-content: center;
+        margin: 50px;
+        width: 58vw;
         height: 32vh;
+    }
+    .lable1{
+        width: 50vw;
+    }
+    lable{
+        width: 50vw;
+    }
+    select{
+        width: 100vw;
+    }
+    .containersub{
+        margin-bottom: 2vh;
+        margin-Top: 5vh;
     }
     .Submitbotton{
         align-items: center;
@@ -318,19 +345,25 @@ table.TVP thead {
         margin: 6px;
         border-radius: 10px;
         width: 100%;
+        
+    }
+    .fill{
+        width: 100vw;
     }
     .TableArea{
         display: flex;
+        
         margin-left: 10px;
-        width: 40vh;
-        height: 36vh;
+        width: 90vw;
+        height: 60vh;
         overflow-x: auto;
         overflow-y: auto;
     }
     .mainsection{
         display: flex;
         flex-wrap: wrap;
-        height: 380vh;
+        justify-content: center;
+        /* height: 380vh; */
     }
 }
 
