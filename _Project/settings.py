@@ -166,6 +166,6 @@ from celery.schedules import crontab
 CELERY_BEAT_SCHEDULE = {
     'transfer_sailed_vessels_daily': {
         'task': 'App.tasks.transfer_sailed_vessels_task',
-        'schedule': crontab(hour=0, minute=0),  # Midnight
+        'schedule': crontab(hour=23, minute=59),  # Midnight
     },
 }
